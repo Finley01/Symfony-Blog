@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.Title }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid bg-dark text-light" >
+    <h1 class="bg-dark text-light">{{ post.Title }}</h1>
+        <p>This post was made by {{ post.user.Username }} on {{ post.Date ? post.Date|date('d-m-Y') : '' }} at {{ post.Time ? post.Time|date('H:i') : '' }}</p>
+    <table class="table">
+
+        <tbody class="table-dark">
+        <tr class="d-flex text-break">
+            <td height="auto" class="col" >{{ post.Text }}</td>
+        </tr>
+        <tr class="d-flex col-1">
+            <th>Comments</th>
+        </tr>
+            {% for comment in post.Comments %}
+        <tr class="d-flex col">
+            <td>{{ comment.user.Username }} says</td>
+            <td>{{ comment.text }}</td>
+            <td class="text-muted">on {{ comment.Date ? comment.Date|date('Y-m-d') : '' }} at {{ comment.time ? comment.Time|date('H:i') : '' }}</td>
+        </tr>
+            {% endfor %}
+        </tbody>
+    <script>
+
+    </script>
+    </table>
+    <a class="btn btn-light" href="{{ path('post_index') }}">Back to list</a>
+    <a class="btn btn-light" href="{{ path('post_edit', {'id': post.id}) }}">Edit</a>
+    <a class="btn btn-light" href="{{ path('comment_blog', {'id': post.id}) }}">Comment</a>
+        <p></p>
+        {{ include('post/_delete_form.html.twig') }}
+        <p></p>
+    </div>
+{% endblock %}
